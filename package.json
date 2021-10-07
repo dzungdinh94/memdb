@@ -3,16 +3,16 @@
     "description": "Distributed Transactional In-Memory Database",
     "version": "0.5.7",
     "author": "rain1017",
-    "private" : false,
-    "homepage" : "https://github.com/rain1017/memdb",
-    "repository" : {
-        "type" : "git",
-        "url" : "https://github.com/rain1017/memdb.git"
+    "private": false,
+    "homepage": "https://github.com/rain1017/memdb",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rain1017/memdb.git"
     },
-    "bugs" : {
-        "url" : "https://github.com/rain1017/memdb/issues"
+    "bugs": {
+        "url": "https://github.com/rain1017/memdb/issues"
     },
-    "keywords" : [
+    "keywords": [
         "mongodb",
         "transaction",
         "mongoose",
@@ -24,11 +24,11 @@
     "engines": {
         "node": ">=0.12.5"
     },
-    "bin" : {
-        "memdbd" : "./bin/memdbd",
-        "memdb" : "./bin/memdb",
-        "memdbindex" : "./bin/memdbindex",
-        "memdbcluster" : "./bin/memdbcluster"
+    "bin": {
+        "memdbd": "./bin/memdbd",
+        "memdb": "./bin/memdb",
+        "memdbindex": "./bin/memdbindex",
+        "memdbcluster": "./bin/memdbcluster"
     },
     "scripts": {
         "start": "grunt",
@@ -36,30 +36,29 @@
     },
     "dependencies": {
         "memdb-logger": "~0.1.7",
-        "bluebird": "2.9.34",
-        "lodash": "~3.10.1",
-        "async-lock": "~0.3.5",
-        "redis": "~2.4.2",
-        "hiredis": "~0.4.0",
-        "mongodb": "2.0.39",
-        "mongoose": "4.1.5",
-        "minimist" : "~1.2.0",
-        "node-uuid" : "~1.4.3",
-        "mkdirp": "~0.5.1",
-        "fs-extra": "~0.26.0",
-        "heapdump": "~0.3.5"
+        "bluebird": "3.7.2",
+        "lodash": "~4.17.21",
+        "async-lock": "~1.3.0",
+        "redis": "~3.1.2",
+        "mongodb": "4.1.3",
+        "mongoose": "6.0.9",
+        "minimist": "~1.2.5",
+        "node-uuid": "~1.4.3",
+        "mkdirp": "~1.0.4",
+        "fs-extra": "~10.0.0",
+        "heapdump": "~0.3.15"
     },
     "devDependencies": {
-        "should": "~4.5.0",
-        "grunt-cli": "~0.1.13",
-        "grunt-env": "~0.4.2",
-        "grunt-contrib-watch": "~0.6.1",
-        "grunt-contrib-jshint": "~0.10.0",
-        "grunt-contrib-clean": "~0.6.0",
-        "grunt-mocha-test": "~0.12.6",
-        "load-grunt-tasks": "~2.0.0",
-        "grunt-concurrent": "~0.4.1",
-        "grunt-nodemon": "~0.2.0",
-        "blanket" : "~1.1.6"
+        "should": "~13.2.3",
+        "grunt-cli": "~1.4.3",
+        "grunt-env": "~1.0.1",
+        "grunt-contrib-watch": "~1.1.0",
+        "grunt-contrib-jshint": "~3.1.1",
+        "grunt-contrib-clean": "~2.0.0",
+        "grunt-mocha-test": "~0.13.3",
+        "load-grunt-tasks": "~5.1.0",
+        "grunt-concurrent": "~3.0.0",
+        "grunt-nodemon": "~0.4.2",
+        "blanket": "~1.2.3"
     }
 }
