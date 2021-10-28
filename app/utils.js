@@ -15,14 +15,14 @@
 
 'use strict';
 
-var _ = require('lodash');
-var util = require('util');
-var P = require('bluebird');
-var child_process = require('child_process');
-var uuid = require('node-uuid');
+import _ from 'lodash';
+import util from 'util';
+import P from 'bluebird';
+import child_process from 'child_process';
+import uuid from 'node-uuid';
 
 // Add some usefull promise methods
-exports.extendPromise = function(P){
+export const extendPromise = function(P){
     // This is designed for large array
     // The original map with concurrency option does not release memory
     P.mapLimit = function(items, fn, limit){
@@ -71,18 +71,18 @@ exports.extendPromise = function(P){
     };
 };
 
-exports.uuid = function(){
+export const uuid = function(){
     return uuid.v4();
 };
 
-exports.isEmpty = function(obj){
+export const isEmpty = function(obj){
     for(var key in obj){
         return false;
     }
     return true;
 };
 
-exports.getObjPath = function(obj, path){
+export const getObjPath = function(obj, path){
     var current = obj;
     path.split('.').forEach(function(field){
         if(!!current){
@@ -92,7 +92,7 @@ exports.getObjPath = function(obj, path){
     return current;
 };
 
-exports.setObjPath = function(obj, path, value){
+export const setObjPath = function(obj, path, value){
     if(typeof(obj) !== 'object'){
         throw new Error('not object');
     }
@@ -111,7 +111,7 @@ exports.setObjPath = function(obj, path, value){
     current[finalField] = value;
 };
 
-exports.deleteObjPath = function(obj, path){
+export const deleteObjPath = function(obj, path){
     if(typeof(obj) !== 'object'){
         throw new Error('not object');
     }
@@ -128,26 +128,26 @@ exports.deleteObjPath = function(obj, path){
     }
 };
 
-exports.clone = function(obj){
+export const clone = function(obj){
     return JSON.parse(JSON.stringify(obj));
 };
 
-exports.isDict = function(obj){
+export const isDict = function(obj){
     return typeof(obj) === 'object' && obj !== null && !Array.isArray(obj);
 };
 
 // escape '$' and '.' in field name
 // '$abc.def\\g' => '\\u0024abc\\u002edef\\\\g'
-exports.escapeField = function(str){
+export const escapeField = function(str){
     return str.replace(/\\/g, '\\\\').replace(/\$/g, '\\u0024').replace(/\./g, '\\u002e');
 };
 
-exports.unescapeField = function(str){
+export const unescapeField = function(str){
     return str.replace(/\\u002e/g, '.').replace(/\\u0024/g, '$').replace(/\\\\/g, '\\');
 };
 
 // Async foreach for mongo's cursor
-exports.mongoForEach = function(itor, func){
+export const mongoForEach = function(itor, func){
     var deferred = P.defer();
 
     var next = function(err){
@@ -173,7 +173,7 @@ exports.mongoForEach = function(itor, func){
     return deferred.promise;
 };
 
-exports.remoteExec = function(ip, cmd, opts){
+export const remoteExec = function(ip, cmd, opts){
     ip = ip || '127.0.0.1';
     opts = opts || {};
     var user = opts.user || process.env.USER;
@@ -208,7 +208,7 @@ exports.remoteExec = function(ip, cmd, opts){
     return deferred.promise;
 };
 
-exports.waitUntil = function(fn, checkInterval){
+export const waitUntil = function(fn, checkInterval){
     if(!checkInterval){
         checkInterval = 100;
     }
@@ -227,7 +227,7 @@ exports.waitUntil = function(fn, checkInterval){
     return deferred.promise;
 };
 
-exports.rateCounter = function(opts){
+export const rateCounter = function(opts){
     opts = opts || {};
     var perserveSeconds = opts.perserveSeconds || 3600;
     var sampleSeconds = opts.sampleSeconds || 5;
@@ -293,7 +293,7 @@ exports.rateCounter = function(opts){
     return counter;
 };
 
-exports.hrtimer = function(autoStart){
+export const hrtimer = function(autoStart){
     var total = 0;
     var starttime = null;
 
@@ -323,7 +323,7 @@ exports.hrtimer = function(autoStart){
     return timer;
 };
 
-exports.timeCounter = function(){
+export const timeCounter = function(){
     var counts = {};
 
     return {
@@ -348,7 +348,7 @@ exports.timeCounter = function(){
 
 // trick v8 to not use hidden class
 // https://github.com/joyent/node/issues/25661
-exports.forceHashMap = function(){
+export const forceHashMap = function(){
     var obj = {k : 1};
     delete obj.k;
     return obj;

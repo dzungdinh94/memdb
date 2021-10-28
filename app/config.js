@@ -15,31 +15,31 @@
 
 'use strict';
 
-var P = require('bluebird');
-var path = require('path');
-var fs = require('fs-extra');
-var mkdirp = require('mkdirp');
-var memdbLogger = require('memdb-logger');
-var logger = memdbLogger.getLogger('memdb', __filename);
-var utils = require('./utils');
+const P = require('bluebird');
+const path = require('path');
+const fs = require('fs-extra');
+const mkdirp = require('mkdirp');
+const memdbLogger = require('memdb-logger');
+const logger = memdbLogger.getLogger('memdb', __filename);
+const utils = require('./utils');
 
-var _config = null;
+const _config = null;
 
-exports.init = function(confPath, shardId){
-    var searchPaths = [];
-    var homePath = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+export const init = function(confPath, shardId){
+    const searchPaths = [];
+    const homePath = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 
-    var localDataPath = path.join(homePath, '.memdb');
+    const localDataPath = path.join(homePath, '.memdb');
     mkdirp(localDataPath);
 
     searchPaths = confPath ? [confPath] : [path.join(homePath, '.memdb/memdb.conf.js'), '/etc/memdb.conf.js'];
 
-    var conf = null;
-    for(var i=0; i<searchPaths.length; i++){
+    const conf = null;
+    for(const i=0; i<searchPaths.length; i++){
         if(fs.existsSync(searchPaths[i])){
             confPath = path.resolve(searchPaths[i]);
             conf = require(confPath);
-            exports.path = confPath;
+            export const path = confPath;
             break;
         }
     }
@@ -49,8 +49,8 @@ exports.init = function(confPath, shardId){
         }
 
         // copy and load default config
-        var confTemplatePath = path.join(__dirname, '../memdb.conf.js');
-        var defaultConfPath = path.join(localDataPath, 'memdb.conf.js');
+        const confTemplatePath = path.join(__dirname, '../memdb.conf.js');
+        const defaultConfPath = path.join(localDataPath, 'memdb.conf.js');
         fs.copySync(confTemplatePath, defaultConfPath);
 
         conf = require(defaultConfPath);
@@ -62,15 +62,15 @@ exports.init = function(confPath, shardId){
     }
 
     // Configure log
-    var logConf = conf.log || {};
+    const logConf = conf.log || {};
 
-    var logPath = logConf.path || path.join(localDataPath, 'log');
+    const logPath = logConf.path || path.join(localDataPath, 'log');
     mkdirp(logPath);
 
     console.log('log path: %s', logPath);
     memdbLogger.configure(path.join(__dirname, 'log4js.json'), {shardId : shardId || '$', base : logPath});
 
-    var level = logConf.level || 'INFO';
+    const level = logConf.level || 'INFO';
     memdbLogger.setGlobalLogLevel(memdbLogger.levels[level]);
 
     // heapdump
@@ -81,26 +81,26 @@ exports.init = function(confPath, shardId){
     _config = conf;
 };
 
-exports.getShardIds = function(){
+export const getShardIds = function(){
     if(!_config){
         throw new Error('please config.init first');
     }
     return Object.keys(_config.shards);
 };
 
-exports.shardConfig = function(shardId){
+export const shardConfig = function(shardId){
     if(!_config){
         throw new Error('please config.init first');
     }
 
-    var conf = utils.clone(_config);
+    const conf = utils.clone(_config);
 
-    var shardConf = conf.shards && conf.shards[shardId];
+    const shardConf = conf.shards && conf.shards[shardId];
     if(!shardConf){
         throw new Error('shard ' + shardId + ' not configured');
     }
     // Override shard specific config
-    for(var key in shardConf){
+    for(const key in shardConf){
         conf[key] = shardConf[key];
     }
 
@@ -108,6 +108,6 @@ exports.shardConfig = function(shardId){
     return conf;
 };
 
-exports.clusterConfig = function(){
+export const clusterConfig = function(){
     return _config;
 };

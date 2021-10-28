@@ -15,12 +15,12 @@
 
 'use strict';
 
-var MongoBackend = require('./mongo-backend');
-var RedisBackend = require('./redis-backend');
+const MongoBackend = require('./mongo-backend');
+const RedisBackend = require('./redis-backend');
 
-exports.create = function(config){
+export const create = function(config){
     config = config || {};
-    var engine = config.engine || 'mongodb';
+    const engine = config.engine || 'mongodb';
 
     if(engine === 'mongodb'){
         return new MongoBackend(config);

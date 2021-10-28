@@ -46,11 +46,9 @@ var should = require('should');
 var main = P.coroutine(function*(){
     // Connect to memdb
     var autoconn = yield memdb.autoConnect({
-        shards : {s1 : {host : '127.0.0.1', port : 31017}}
+        shards : {s1 : {host : '127.0.0.1', port : 27017}}
     });
-
     var Player = autoconn.collection('player');
-
     // make transaction in shard s1
     yield autoconn.transaction(P.coroutine(function*(){
         // Insert players

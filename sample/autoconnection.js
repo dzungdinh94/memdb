@@ -28,8 +28,8 @@ var main = P.coroutine(function*(){
     // All database access should via this autoconn object, you can preserve autoconn object in a global module that can be accessed anywhere
     var autoconn = yield memdb.autoConnect({
         shards : { // Specify all shards here
-            s1 : {host : '127.0.0.1', port : 31017},
-            s2 : {host : '127.0.0.1', port : 31018},
+            s1 : {host : '127.0.0.1', port : 27017},
+            // s2 : {host : '127.0.0.1', port : 31018},
         }
     });
 
