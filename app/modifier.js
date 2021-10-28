@@ -1,12 +1,12 @@
 import utils from "./utils";
 
 //http://docs.mongodb.org/manual/reference/limits/#Restrictions-on-Field-Names
-var verifyDoc = function (doc) {
+const verifyDoc = function (doc) {
   if (doc === null || typeof doc !== "object") {
     return;
   }
 
-  for (var key in doc) {
+  for (const key in doc) {
     if (key[0] === "$") {
       throw new Error('Document fields can not start with "$"');
     }
@@ -46,7 +46,7 @@ export const $set = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
+  for (const path in param) {
     verifyDoc(param[path]);
     utils.setObjPath(doc, path, param[path]);
   }
@@ -57,7 +57,7 @@ export const $unset = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
+  for (const path in param) {
     if (!!param[path]) {
       utils.deleteObjPath(doc, path);
     }
@@ -69,9 +69,9 @@ export const $inc = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
-    var value = utils.getObjPath(doc, path);
-    var delta = param[path];
+  for (const path in param) {
+    const value = utils.getObjPath(doc, path);
+    const delta = param[path];
     if (value === undefined) {
       value = 0;
     }
@@ -87,8 +87,8 @@ export const $push = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
-    var arr = utils.getObjPath(doc, path);
+  for (const path in param) {
+    const arr = utils.getObjPath(doc, path);
     if (arr === undefined) {
       utils.setObjPath(doc, path, []);
       arr = utils.getObjPath(doc, path);
@@ -106,8 +106,8 @@ export const $pushAll = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
-    var arr = utils.getObjPath(doc, path);
+  for (const path in param) {
+    const arr = utils.getObjPath(doc, path);
     if (arr === undefined) {
       utils.setObjPath(doc, path, []);
       arr = utils.getObjPath(doc, path);
@@ -115,11 +115,11 @@ export const $pushAll = function (doc, param) {
     if (!Array.isArray(arr)) {
       throw new Error("$push to non-array");
     }
-    var items = param[path];
+    const items = param[path];
     if (!Array.isArray(items)) {
       items = [items];
     }
-    for (var i in items) {
+    for (const i in items) {
       verifyDoc(items[i]);
       arr.push(items[i]);
     }
@@ -131,8 +131,8 @@ export const $addToSet = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
-    var arr = utils.getObjPath(doc, path);
+  for (const path in param) {
+    const arr = utils.getObjPath(doc, path);
     if (arr === undefined) {
       utils.setObjPath(doc, path, []);
       arr = utils.getObjPath(doc, path);
@@ -140,7 +140,7 @@ export const $addToSet = function (doc, param) {
     if (!Array.isArray(arr)) {
       throw new Error("$addToSet to non-array");
     }
-    var value = param[path];
+    const value = param[path];
     if (arr.indexOf(value) === -1) {
       verifyDoc(value);
       arr.push(value);
@@ -153,8 +153,8 @@ export const $pop = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
-    var arr = utils.getObjPath(doc, path);
+  for (const path in param) {
+    const arr = utils.getObjPath(doc, path);
     if (Array.isArray(arr)) {
       arr.pop();
     }
@@ -166,11 +166,11 @@ export const $pull = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
-    var arr = utils.getObjPath(doc, path);
+  for (const path in param) {
+    const arr = utils.getObjPath(doc, path);
     if (Array.isArray(arr)) {
-      var value = param[path];
-      var i = arr.indexOf(value);
+      const value = param[path];
+      const i = arr.indexOf(value);
       if (i !== -1) {
         arr.splice(i, 1);
       }
@@ -183,15 +183,15 @@ export const $pullAll = function (doc, param) {
   if (doc === null) {
     throw new Error("doc not exist");
   }
-  for (var path in param) {
-    var arr = utils.getObjPath(doc, path);
+  for (const path in param) {
+    const arr = utils.getObjPath(doc, path);
     if (Array.isArray(arr)) {
-      var values = param[path];
+      const values = param[path];
       if (!Array.isArray(values)) {
         values = [values];
       }
       values.forEach(function (value) {
-        var i = arr.indexOf(value);
+        const i = arr.indexOf(value);
         if (i !== -1) {
           arr.splice(i, 1);
         }

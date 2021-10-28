@@ -1,67 +1,50 @@
-// Copyright 2015 rain1017.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-// implied. See the License for the specific language governing
-// permissions and limitations under the License. See the AUTHORS file
-// for names of contributors.
+const Database = require('./database');
+const memdbLogger = require('memdb-logger');
+const net = require('net');
+const http = require('http');
+const P = require('bluebird');
+const uuid = require('node-uuid');
+const Protocol = require('./protocol');
+const utils = require('./utils');
+const consts = require('./consts');
 
-'use strict';
-
-var Database = require('./database');
-var memdbLogger = require('memdb-logger');
-var net = require('net');
-var http = require('http');
-var P = require('bluebird');
-var uuid = require('node-uuid');
-var Protocol = require('./protocol');
-var utils = require('./utils');
-var consts = require('./consts');
-
-var DEFAULT_PORT = 31017;
+const DEFAULT_PORT = 31017;
 
 exports.start = function(opts){
-    var deferred = P.defer();
+    const deferred = P.defer();
 
-    var logger = memdbLogger.getLogger('memdb', __filename, 'shard:' + opts.shardId);
+    const logger = memdbLogger.getLogger('memdb', __filename, 'shard:' + opts.shardId);
     logger.warn('starting %s...', opts.shardId);
 
-    var bind = opts.bind || '0.0.0.0';
-    var port = opts.port || DEFAULT_PORT;
+    const bind = opts.bind || '0.0.0.0';
+    const port = opts.port || DEFAULT_PORT;
 
-    var db = new Database(opts);
+    const db = new Database(opts);
 
-    var sockets = utils.forceHashMap();
+    const sockets = utils.forceHashMap();
 
-    var _isShutingDown = false;
+    const _isShutingDown = false;
 
-    var server = net.createServer(function(socket){
+    const server = net.createServer(function(socket){
 
-        var clientId = uuid.v4();
+        const clientId = uuid.v4();
         sockets[clientId] = socket;
 
-        var connIds = utils.forceHashMap();
-        var remoteAddress = socket.remoteAddress;
-        var protocol = new Protocol({socket : socket});
+        const connIds = utils.forceHashMap();
+        const remoteAddress = socket.remoteAddress;
+        const protocol = new Protocol({socket : socket});
 
         protocol.on('msg', function(msg){
             logger.debug('[conn:%s] %s => %j', msg.connId, remoteAddress, msg);
-            var resp = {seq : msg.seq};
+            const resp = {seq : msg.seq};
 
             P.try(function(){
                 if(msg.method === 'connect'){
-                    var clientVersion = msg.args[0];
+                    const clientVersion = msg.args[0];
                     if(parseFloat(clientVersion) < parseFloat(consts.minClientVersion)){
                         throw new Error('client version not supported, please upgrade');
                     }
-                    var connId = db.connect().connId;
+                    const connId = db.connect().connId;
                     connIds[connId] = true;
                     return {
                         connId : connId,
@@ -141,7 +124,7 @@ exports.start = function(opts){
         deferred.reject(err);
     });
 
-    var shutdown = function(){
+    const shutdown = function(){
         logger.warn('receive shutdown signal');
 
         if(_isShutingDown){
@@ -150,7 +133,7 @@ exports.start = function(opts){
         _isShutingDown = true;
 
         return P.try(function(){
-            var deferred = P.defer();
+            const deferred = P.defer();
 
             server.once('close', function(){
                 logger.debug('on server close');

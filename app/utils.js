@@ -29,8 +29,8 @@ export const extendPromise = function(P){
         if(!limit){
             limit = 1000;
         }
-        var groups = [];
-        var group = [];
+        const groups = [];
+        const group = [];
         items.forEach(function(item){
             group.push(item);
             if(group.length >= limit){
@@ -42,8 +42,8 @@ export const extendPromise = function(P){
             groups.push(group);
         }
 
-        var results = [];
-        var promise = P.resolve();
+        const results = [];
+        const promise = P.resolve();
         groups.forEach(function(group){
             promise = promise.then(function(){
                 return P.map(group, fn)
@@ -58,7 +58,7 @@ export const extendPromise = function(P){
     };
 
     P.mapSeries = function(items, fn){
-        var results = [];
+        const results = [];
         return P.each(items, function(item){
             return P.try(function(){
                 return fn(item);
@@ -76,14 +76,14 @@ export const uuid = function(){
 };
 
 export const isEmpty = function(obj){
-    for(var key in obj){
+    for(const key in obj){
         return false;
     }
     return true;
 };
 
 export const getObjPath = function(obj, path){
-    var current = obj;
+    const current = obj;
     path.split('.').forEach(function(field){
         if(!!current){
             current = current[field];
@@ -96,9 +96,9 @@ export const setObjPath = function(obj, path, value){
     if(typeof(obj) !== 'object'){
         throw new Error('not object');
     }
-    var current = obj;
-    var fields = path.split('.');
-    var finalField = fields.pop();
+    const current = obj;
+    const fields = path.split('.');
+    const finalField = fields.pop();
     fields.forEach(function(field){
         if(!current.hasOwnProperty(field)){
             current[field] = {};
@@ -115,9 +115,9 @@ export const deleteObjPath = function(obj, path){
     if(typeof(obj) !== 'object'){
         throw new Error('not object');
     }
-    var current = obj;
-    var fields = path.split('.');
-    var finalField = fields.pop();
+    const current = obj;
+    const fields = path.split('.');
+    const finalField = fields.pop();
     fields.forEach(function(field){
         if(!!current){
             current = current[field];
@@ -148,9 +148,9 @@ export const unescapeField = function(str){
 
 // Async foreach for mongo's cursor
 export const mongoForEach = function(itor, func){
-    var deferred = P.defer();
+    const deferred = P.defer();
 
-    var next = function(err){
+    const next = function(err){
         if(err){
             return deferred.reject(err);
         }
@@ -176,10 +176,10 @@ export const mongoForEach = function(itor, func){
 export const remoteExec = function(ip, cmd, opts){
     ip = ip || '127.0.0.1';
     opts = opts || {};
-    var user = opts.user || process.env.USER;
-    var successCodes = opts.successCodes || [0];
+    const user = opts.user || process.env.USER;
+    const successCodes = opts.successCodes || [0];
 
-    var child = null;
+    const child = null;
     // localhost with current user
     if((ip === '127.0.0.1' || ip.toLowerCase() === 'localhost') && user === process.env.USER){
         child = child_process.spawn('bash', ['-c', cmd]);
@@ -189,8 +189,8 @@ export const remoteExec = function(ip, cmd, opts){
         child = child_process.spawn('ssh', ['-o StrictHostKeyChecking=no', user + '@' + ip, 'bash -c \'' + cmd + '\'']);
     }
 
-    var deferred = P.defer();
-    var stdout = '', stderr = '';
+    const deferred = P.defer();
+    const stdout = '', stderr = '';
     child.stdout.on('data', function(data){
         stdout += data;
     });
@@ -213,8 +213,8 @@ export const waitUntil = function(fn, checkInterval){
         checkInterval = 100;
     }
 
-    var deferred = P.defer();
-    var check = function(){
+    const deferred = P.defer();
+    const check = function(){
         if(fn()){
             deferred.resolve();
         }
@@ -229,21 +229,21 @@ export const waitUntil = function(fn, checkInterval){
 
 export const rateCounter = function(opts){
     opts = opts || {};
-    var perserveSeconds = opts.perserveSeconds || 3600;
-    var sampleSeconds = opts.sampleSeconds || 5;
+    const perserveSeconds = opts.perserveSeconds || 3600;
+    const sampleSeconds = opts.sampleSeconds || 5;
 
-    var counts = {};
-    var cleanInterval = null;
+    const counts = {};
+    const cleanInterval = null;
 
-    var getCurrentSlot = function(){
+    const getCurrentSlot = function(){
         return Math.floor(Date.now() / 1000 / sampleSeconds);
     };
 
-    var beginSlot = getCurrentSlot();
+    const beginSlot = getCurrentSlot();
 
-    var counter = {
+    const counter = {
         inc : function(){
-            var slotNow = getCurrentSlot();
+            const slotNow = getCurrentSlot();
             if(!counts.hasOwnProperty(slotNow)){
                 counts[slotNow] = 0;
             }
@@ -256,7 +256,7 @@ export const rateCounter = function(opts){
         },
 
         clean : function(){
-            var slotNow = getCurrentSlot();
+            const slotNow = getCurrentSlot();
             Object.keys(counts).forEach(function(slot){
                 if(slot < slotNow - Math.floor(perserveSeconds / sampleSeconds)){
                     delete counts[slot];
@@ -265,13 +265,13 @@ export const rateCounter = function(opts){
         },
 
         rate : function(lastSeconds){
-            var slotNow = getCurrentSlot();
-            var total = 0;
-            var startSlot = slotNow - Math.floor(lastSeconds / sampleSeconds);
+            const slotNow = getCurrentSlot();
+            const total = 0;
+            const startSlot = slotNow - Math.floor(lastSeconds / sampleSeconds);
             if(startSlot < beginSlot){
                 startSlot = beginSlot;
             }
-            for(var slot = startSlot; slot < slotNow; slot++){
+            for(const slot = startSlot; slot < slotNow; slot++){
                 total += counts[slot] || 0;
             }
             return total / ((slotNow - startSlot) * sampleSeconds);
@@ -294,10 +294,10 @@ export const rateCounter = function(opts){
 };
 
 export const hrtimer = function(autoStart){
-    var total = 0;
-    var starttime = null;
+    const total = 0;
+    const starttime = null;
 
-    var timer = {
+    const timer = {
         start : function(){
             if(starttime){
                 return;
@@ -308,7 +308,7 @@ export const hrtimer = function(autoStart){
             if(!starttime){
                 return;
             }
-            var timedelta = process.hrtime(starttime);
+            const timedelta = process.hrtime(starttime);
             total += timedelta[0] * 1000 + timedelta[1] / 1000000;
             return total;
         },
@@ -324,14 +324,14 @@ export const hrtimer = function(autoStart){
 };
 
 export const timeCounter = function(){
-    var counts = {};
+    const counts = {};
 
     return {
         add : function(name, time){
             if(!counts.hasOwnProperty(name)){
                 counts[name] = [0, 0, 0]; // total, count, average
             }
-            var count = counts[name];
+            const count = counts[name];
             count[0] += time;
             count[1]++;
             count[2] = count[0] / count[1];
@@ -349,7 +349,7 @@ export const timeCounter = function(){
 // trick v8 to not use hidden class
 // https://github.com/joyent/node/issues/25661
 export const forceHashMap = function(){
-    var obj = {k : 1};
+    const obj = {k : 1};
     delete obj.k;
     return obj;
 };
