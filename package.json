@@ -2,15 +2,15 @@
     "name": "memdb-server",
     "description": "Distributed Transactional In-Memory Database",
     "version": "0.5.7",
-    "author": "rain1017",
+    "author": "dzungdinh94",
     "private": false,
-    "homepage": "https://github.com/rain1017/memdb",
+    "homepage": "https://github.com/dzungdinh94/memdb",
     "repository": {
         "type": "git",
-        "url": "https://github.com/rain1017/memdb.git"
+        "url": "https://github.com/dzungdinh94/memdb.git"
     },
     "bugs": {
-        "url": "https://github.com/rain1017/memdb/issues"
+        "url": "https://github.com/dzungdinh94/memdb/issues"
     },
     "keywords": [
         "mongodb",

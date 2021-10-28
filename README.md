@@ -1,7 +1,7 @@
-# MemDB ![logo](https://github.com/rain1017/memdb/wiki/images/logo.png)
+# MemDB ![logo](https://github.com/dzungdinh94/memdb/wiki/images/logo.png)
 
-[![Build Status](https://travis-ci.org/rain1017/memdb.svg?branch=master)](https://travis-ci.org/rain1017/memdb)
-[![Dependencies Status](https://david-dm.org/rain1017/memdb.svg)](https://david-dm.org/rain1017/memdb)
+[![Build Status](https://travis-ci.org/dzungdinh94/memdb.svg?branch=master)](https://travis-ci.org/dzungdinh94/memdb)
+[![Dependencies Status](https://david-dm.org/dzungdinh94/memdb.svg)](https://david-dm.org/dzungdinh94/memdb)
 
 __Distributed Transactional In-Memory Database__
 
@@ -25,10 +25,10 @@ __Distributed Transactional In-Memory Database__
 ## Links
 
 * Home Page: [http://memdb.org](http://memdb.org)
-* Github: [https://github.com/rain1017/memdb](https://github.com/rain1017/memdb)
-* Wiki : [https://github.com/rain1017/memdb/wiki](https://github.com/rain1017/memdb/wiki)
-* API Reference: [https://github.com/rain1017/memdb/wiki/API-Reference](https://github.com/rain1017/memdb/wiki/API-Reference)
-* Email: [rain1017@gmail.com](mailto:rain1017@gmail.com)
+* Github: [https://github.com/dzungdinh94/memdb](https://github.com/dzungdinh94/memdb)
+* Wiki : [https://github.com/dzungdinh94/memdb/wiki](https://github.com/dzungdinh94/memdb/wiki)
+* API Reference: [https://github.com/dzungdinh94/memdb/wiki/API-Reference](https://github.com/dzungdinh94/memdb/wiki/API-Reference)
+* Email: [dzungdinh94@gmail.com](mailto:dzungdinh94@gmail.com)
 * QQ: 9040044
 
 ## Quick Start
@@ -62,7 +62,7 @@ memdbcluster [start | stop | status] [--conf=memdb.conf.js] [--shard=shardId]
 
 ### Play with memdb shell
 See the video bellow, note how ACID transaction work cross multiple shards.
-![memdbshell.gif](https://github.com/rain1017/memdb/wiki/images/memdbshell.gif)
+![memdbshell.gif](https://github.com/dzungdinh94/memdb/wiki/images/memdbshell.gif)
 
 ### Mdbgoose
 
@@ -167,11 +167,11 @@ npm install memdb-client
 node --harmony sample.js
 ```
 
-__Check [here](https://github.com/rain1017/memdb/wiki/API-Reference#mdbgoose) to see how to port your Mongoose project to Mdbgoose__
+__Check [here](https://github.com/dzungdinh94/memdb/wiki/API-Reference#mdbgoose) to see how to port your Mongoose project to Mdbgoose__
 
 
 ### Architecture
-![architecture.png](https://github.com/rain1017/memdb/wiki/images/architecture.png)
+![architecture.png](https://github.com/dzungdinh94/memdb/wiki/images/architecture.png)
 
 ### Relationship between MemDB and MongoDB
 MemDB is like a 'cache layer' built up on MongoDB which support distributed ACID transaction. 
@@ -187,14 +187,14 @@ Here are some basic rules for memdb:
 * Access the same data from the same shard if possible, which will maximize performance.
 
 ### Further read
-* [The Wiki](https://github.com/rain1017/memdb/wiki)
+* [The Wiki](https://github.com/dzungdinh94/memdb/wiki)
 
 ### Quick Pomelo
-[Quick Pomelo](https://github.com/rain1017/quick-pomelo) is a Scalable, Transactional and Reliable Game Server Framework based on Pomelo and MemDB
+[Quick Pomelo](https://github.com/dzungdinh94/quick-pomelo) is a Scalable, Transactional and Reliable Game Server Framework based on Pomelo and MemDB
 
 ## License
 
-Copyright 2015 rain1017.
+Copyright 2015 dzungdinh94.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
