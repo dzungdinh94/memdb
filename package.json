@@ -4,6 +4,7 @@
     "version": "0.5.7",
     "author": "dzungdinh94",
     "private": false,
+    "type": "module",
     "homepage": "https://github.com/dzungdinh94/memdb",
     "repository": {
         "type": "git",
