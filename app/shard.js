@@ -2,7 +2,6 @@ import _ from "lodash";
 import P from "bluebird";
 import Logger from "memdb-logger";
 import util from "util";
-import redis from "redis";
 import AsyncLock from "async-lock";
 import { EventEmitter } from "events";
 import backends from "./backends";

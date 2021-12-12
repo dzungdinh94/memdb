@@ -59,18 +59,18 @@ export class Slave {
       });
   };
 
-  set = function (key, doc) {
+  set =  (key, doc) => {
     this.logger.debug("slave set %s", key);
     return this.client.setAsync(this._redisKey(key), JSON.stringify(doc));
   };
 
-  del = function (key) {
+  del =  (key) => {
     this.logger.debug("slave del %s", key);
     return this.client.delAsync(this._redisKey(key));
   };
 
   // docs - {key : doc}
-  setMulti = function (docs) {
+  setMulti =  (docs) => {
     this.logger.debug("slave setMulti");
 
     const multi = this.client.multi();
@@ -83,7 +83,7 @@ export class Slave {
   };
 
   // returns - {key : doc}
-  getMulti = function (keys) {
+  getMulti =  (keys) => {
     this.logger.debug("slave getMulti");
 
     const self = this;

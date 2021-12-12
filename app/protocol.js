@@ -1,6 +1,4 @@
-import util from "util";
 import { EventEmitter } from "events";
-import P from "bluebird";
 import memlogger from "memdb-logger";
 const logger = memlogger.getLogger("memdb", __filename);
 
