@@ -1,4 +1,4 @@
-// Copyright 2015 dzungdinh94.
+// Copyright 2015 rain1017.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
 
 'use strict';
 
-const MongoBackend = require('./mongo-backend');
-const RedisBackend = require('./redis-backend');
+var MongoBackend = require('./mongo-backend');
+var RedisBackend = require('./redis-backend');
 
-export const create = function(config){
+exports.create = function(config){
     config = config || {};
-    const engine = config.engine || 'mongodb';
+    var engine = config.engine || 'mongodb';
 
     if(engine === 'mongodb'){
         return new MongoBackend(config);

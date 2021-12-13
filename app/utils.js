@@ -1,4 +1,4 @@
-// Copyright 2015 dzungdinh94.
+// Copyright 2015 rain1017.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,22 +15,22 @@
 
 'use strict';
 
-import _ from 'lodash';
-import util from 'util';
-import P from 'bluebird';
-import child_process from 'child_process';
-import uuid from 'node-uuid';
+var _ = require('lodash');
+var util = require('util');
+var P = require('bluebird');
+var child_process = require('child_process');
+var uuid = require('node-uuid');
 
 // Add some usefull promise methods
-export const extendPromise = function(P){
+exports.extendPromise = function(P){
     // This is designed for large array
     // The original map with concurrency option does not release memory
     P.mapLimit = function(items, fn, limit){
         if(!limit){
             limit = 1000;
         }
-        const groups = [];
-        const group = [];
+        var groups = [];
+        var group = [];
         items.forEach(function(item){
             group.push(item);
             if(group.length >= limit){
@@ -42,8 +42,8 @@ export const extendPromise = function(P){
             groups.push(group);
         }
 
-        const results = [];
-        const promise = P.resolve();
+        var results = [];
+        var promise = P.resolve();
         groups.forEach(function(group){
             promise = promise.then(function(){
                 return P.map(group, fn)
@@ -58,7 +58,7 @@ export const extendPromise = function(P){
     };
 
     P.mapSeries = function(items, fn){
-        const results = [];
+        var results = [];
         return P.each(items, function(item){
             return P.try(function(){
                 return fn(item);
@@ -71,19 +71,19 @@ export const extendPromise = function(P){
     };
 };
 
-export const uuid = function(){
+exports.uuid = function(){
     return uuid.v4();
 };
 
-export const isEmpty = function(obj){
-    for(const key in obj){
+exports.isEmpty = function(obj){
+    for(var key in obj){
         return false;
     }
     return true;
 };
 
-export const getObjPath = function(obj, path){
-    const current = obj;
+exports.getObjPath = function(obj, path){
+    var current = obj;
     path.split('.').forEach(function(field){
         if(!!current){
             current = current[field];
@@ -92,13 +92,13 @@ export const getObjPath = function(obj, path){
     return current;
 };
 
-export const setObjPath = function(obj, path, value){
+exports.setObjPath = function(obj, path, value){
     if(typeof(obj) !== 'object'){
         throw new Error('not object');
     }
-    const current = obj;
-    const fields = path.split('.');
-    const finalField = fields.pop();
+    var current = obj;
+    var fields = path.split('.');
+    var finalField = fields.pop();
     fields.forEach(function(field){
         if(!current.hasOwnProperty(field)){
             current[field] = {};
@@ -111,13 +111,13 @@ export const setObjPath = function(obj, path, value){
     current[finalField] = value;
 };
 
-export const deleteObjPath = function(obj, path){
+exports.deleteObjPath = function(obj, path){
     if(typeof(obj) !== 'object'){
         throw new Error('not object');
     }
-    const current = obj;
-    const fields = path.split('.');
-    const finalField = fields.pop();
+    var current = obj;
+    var fields = path.split('.');
+    var finalField = fields.pop();
     fields.forEach(function(field){
         if(!!current){
             current = current[field];
@@ -128,29 +128,29 @@ export const deleteObjPath = function(obj, path){
     }
 };
 
-export const clone = function(obj){
+exports.clone = function(obj){
     return JSON.parse(JSON.stringify(obj));
 };
 
-export const isDict = function(obj){
+exports.isDict = function(obj){
     return typeof(obj) === 'object' && obj !== null && !Array.isArray(obj);
 };
 
 // escape '$' and '.' in field name
 // '$abc.def\\g' => '\\u0024abc\\u002edef\\\\g'
-export const escapeField = function(str){
+exports.escapeField = function(str){
     return str.replace(/\\/g, '\\\\').replace(/\$/g, '\\u0024').replace(/\./g, '\\u002e');
 };
 
-export const unescapeField = function(str){
+exports.unescapeField = function(str){
     return str.replace(/\\u002e/g, '.').replace(/\\u0024/g, '$').replace(/\\\\/g, '\\');
 };
 
 // Async foreach for mongo's cursor
-export const mongoForEach = function(itor, func){
-    const deferred = P.defer();
+exports.mongoForEach = function(itor, func){
+    var deferred = P.defer();
 
-    const next = function(err){
+    var next = function(err){
         if(err){
             return deferred.reject(err);
         }
@@ -173,13 +173,13 @@ export const mongoForEach = function(itor, func){
     return deferred.promise;
 };
 
-export const remoteExec = function(ip, cmd, opts){
+exports.remoteExec = function(ip, cmd, opts){
     ip = ip || '127.0.0.1';
     opts = opts || {};
-    const user = opts.user || process.env.USER;
-    const successCodes = opts.successCodes || [0];
+    var user = opts.user || process.env.USER;
+    var successCodes = opts.successCodes || [0];
 
-    const child = null;
+    var child = null;
     // localhost with current user
     if((ip === '127.0.0.1' || ip.toLowerCase() === 'localhost') && user === process.env.USER){
         child = child_process.spawn('bash', ['-c', cmd]);
@@ -189,8 +189,8 @@ export const remoteExec = function(ip, cmd, opts){
         child = child_process.spawn('ssh', ['-o StrictHostKeyChecking=no', user + '@' + ip, 'bash -c \'' + cmd + '\'']);
     }
 
-    const deferred = P.defer();
-    const stdout = '', stderr = '';
+    var deferred = P.defer();
+    var stdout = '', stderr = '';
     child.stdout.on('data', function(data){
         stdout += data;
     });
@@ -208,13 +208,13 @@ export const remoteExec = function(ip, cmd, opts){
     return deferred.promise;
 };
 
-export const waitUntil = function(fn, checkInterval){
+exports.waitUntil = function(fn, checkInterval){
     if(!checkInterval){
         checkInterval = 100;
     }
 
-    const deferred = P.defer();
-    const check = function(){
+    var deferred = P.defer();
+    var check = function(){
         if(fn()){
             deferred.resolve();
         }
@@ -227,23 +227,23 @@ export const waitUntil = function(fn, checkInterval){
     return deferred.promise;
 };
 
-export const rateCounter = function(opts){
+exports.rateCounter = function(opts){
     opts = opts || {};
-    const perserveSeconds = opts.perserveSeconds || 3600;
-    const sampleSeconds = opts.sampleSeconds || 5;
+    var perserveSeconds = opts.perserveSeconds || 3600;
+    var sampleSeconds = opts.sampleSeconds || 5;
 
-    const counts = {};
-    const cleanInterval = null;
+    var counts = {};
+    var cleanInterval = null;
 
-    const getCurrentSlot = function(){
+    var getCurrentSlot = function(){
         return Math.floor(Date.now() / 1000 / sampleSeconds);
     };
 
-    const beginSlot = getCurrentSlot();
+    var beginSlot = getCurrentSlot();
 
-    const counter = {
+    var counter = {
         inc : function(){
-            const slotNow = getCurrentSlot();
+            var slotNow = getCurrentSlot();
             if(!counts.hasOwnProperty(slotNow)){
                 counts[slotNow] = 0;
             }
@@ -256,7 +256,7 @@ export const rateCounter = function(opts){
         },
 
         clean : function(){
-            const slotNow = getCurrentSlot();
+            var slotNow = getCurrentSlot();
             Object.keys(counts).forEach(function(slot){
                 if(slot < slotNow - Math.floor(perserveSeconds / sampleSeconds)){
                     delete counts[slot];
@@ -265,13 +265,13 @@ export const rateCounter = function(opts){
         },
 
         rate : function(lastSeconds){
-            const slotNow = getCurrentSlot();
-            const total = 0;
-            const startSlot = slotNow - Math.floor(lastSeconds / sampleSeconds);
+            var slotNow = getCurrentSlot();
+            var total = 0;
+            var startSlot = slotNow - Math.floor(lastSeconds / sampleSeconds);
             if(startSlot < beginSlot){
                 startSlot = beginSlot;
             }
-            for(const slot = startSlot; slot < slotNow; slot++){
+            for(var slot = startSlot; slot < slotNow; slot++){
                 total += counts[slot] || 0;
             }
             return total / ((slotNow - startSlot) * sampleSeconds);
@@ -293,11 +293,11 @@ export const rateCounter = function(opts){
     return counter;
 };
 
-export const hrtimer = function(autoStart){
-    const total = 0;
-    const starttime = null;
+exports.hrtimer = function(autoStart){
+    var total = 0;
+    var starttime = null;
 
-    const timer = {
+    var timer = {
         start : function(){
             if(starttime){
                 return;
@@ -308,7 +308,7 @@ export const hrtimer = function(autoStart){
             if(!starttime){
                 return;
             }
-            const timedelta = process.hrtime(starttime);
+            var timedelta = process.hrtime(starttime);
             total += timedelta[0] * 1000 + timedelta[1] / 1000000;
             return total;
         },
@@ -323,15 +323,15 @@ export const hrtimer = function(autoStart){
     return timer;
 };
 
-export const timeCounter = function(){
-    const counts = {};
+exports.timeCounter = function(){
+    var counts = {};
 
     return {
         add : function(name, time){
             if(!counts.hasOwnProperty(name)){
                 counts[name] = [0, 0, 0]; // total, count, average
             }
-            const count = counts[name];
+            var count = counts[name];
             count[0] += time;
             count[1]++;
             count[2] = count[0] / count[1];
@@ -348,8 +348,8 @@ export const timeCounter = function(){
 
 // trick v8 to not use hidden class
 // https://github.com/joyent/node/issues/25661
-export const forceHashMap = function(){
-    const obj = {k : 1};
+exports.forceHashMap = function(){
+    var obj = {k : 1};
     delete obj.k;
     return obj;
 };
