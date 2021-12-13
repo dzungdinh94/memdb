@@ -1,4 +1,4 @@
-// Copyright 2015 rain1017.
+// Copyright 2015 The MemDB Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ var _ = require('lodash');
 var util = require('util');
 var P = require('bluebird');
 var child_process = require('child_process');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 
 // Add some usefull promise methods
 exports.extendPromise = function(P){
@@ -182,6 +182,11 @@ exports.remoteExec = function(ip, cmd, opts){
     var child = null;
     // localhost with current user
     if((ip === '127.0.0.1' || ip.toLowerCase() === 'localhost') && user === process.env.USER){
+		cmd = cmd.replace(/\\/g, '/');
+		var pos = cmd.indexOf('node.exe');
+		if (pos != -1) {
+			cmd = cmd.substring(pos, cmd.length);
+		}
         child = child_process.spawn('bash', ['-c', cmd]);
     }
     // run remote via ssh

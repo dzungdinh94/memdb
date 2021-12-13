@@ -1,4 +1,4 @@
-// Copyright 2015 rain1017.
+// Copyright 2015 The MemDB Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ var _config = null;
 
 exports.init = function(confPath, shardId){
     var searchPaths = [];
-    var homePath = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+    var homePath = process.env.HOME || process.env.USERPROFILE || process.env.HOMEPATH;
 
     var localDataPath = path.join(homePath, '.memdb');
     mkdirp(localDataPath);
