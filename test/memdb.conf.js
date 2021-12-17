@@ -62,11 +62,11 @@ module.exports = {
     shards : {
         s1 : {
             host : '127.0.0.1',
-            port : 32017,
+            port : 52117,
         },
         s2 : {
             host : '127.0.0.1',
-            port : 32018,
+            port : 52107,
         },
     },
 };

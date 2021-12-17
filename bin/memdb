@@ -159,6 +159,7 @@ if (require.main === module) {
 
         return startRepl(ret);
     }, function(e){
+        console.log(e)
         console.error('failed to connect to %s:%s', connectOpts.host, connectOpts.port);
         process.exit(1);
     })

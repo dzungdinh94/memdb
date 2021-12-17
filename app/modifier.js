@@ -200,8 +200,8 @@ exports.$pullAll = function(doc, param){
     if(doc === null){
         throw new Error('doc not exist');
     }
-    for(var path in param){
-        var arr = utils.getObjPath(doc, path);
+    for(let path in param){
+        const arr = utils.getObjPath(doc, path);
         if(Array.isArray(arr)){
             var values = param[path];
             if(!Array.isArray(values)){

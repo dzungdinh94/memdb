@@ -30,23 +30,23 @@ module.exports = function(grunt) {
                 NODE_ENV: 'test'
             }
         },
-        watch: {
-            libJS: {
-                files: watchFiles.libJS.concat(watchFiles.testJS),
-                tasks: ['jshint'],
-                options: {
-                    livereload: true
-                }
-            }
-        },
-        jshint: {
-            all: {
-                src: watchFiles.libJS.concat(watchFiles.testJS),
-                options: {
-                    jshintrc: true
-                }
-            }
-        },
+        // watch: {
+        //     libJS: {
+        //         files: watchFiles.libJS.concat(watchFiles.testJS),
+        //         tasks: ['jshint'],
+        //         options: {
+        //             livereload: true
+        //         }
+        //     }
+        // },
+        // jshint: {
+        //     all: {
+        //         src: watchFiles.libJS.concat(watchFiles.testJS),
+        //         options: {
+        //             jshintrc: true
+        //         }
+        //     }
+        // },
         mochaTest: {
             test : {
                 src: watchFiles.testJS,
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
                 script: 'bin/memdbd',
                 options: {
                     args : ['--conf=./test/memdb.conf.js', '--shard=s1'],
-                    nodeArgs: ['--debug'],
+                    nodeArgs: ['--inspect'],
                     ext: 'js,html',
                     watch: watchFiles.serverJS
                 }
