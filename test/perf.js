@@ -201,13 +201,13 @@ describe.skip('performance test', function(){
 
         return P.each(testOpts, function(testOpt){
             return P.try(function(){
-                return P.promisify(env.flushdb);
+                return util.promisify(env.flushdb);
             })
             .then(function(){
                 return runTest(testOpt);
             })
             .then(function(){
-                return P.promisify(env.flushdb);
+                return util.promisify(env.flushdb);
             });
         })
         .nodeify(cb);

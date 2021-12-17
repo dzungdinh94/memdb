@@ -18,6 +18,7 @@
 var P = require('bluebird');
 var Logger = require('memdb-logger');
 var mongodb = P.promisifyAll(require('mongodb'));
+var util = require('util');
 
 var MongoBackend = function(opts){
     opts = opts || {};
@@ -36,7 +37,7 @@ var proto = MongoBackend.prototype;
 proto.start = function(){
     var self = this;
 
-    return P.promisify(mongodb.MongoClient.connect)(this.config.url, this.config.options)
+    return util.promisify(mongodb.MongoClient.connect)(this.config.url, this.config.options)
     .then(function(ret){
         self.conn = ret;
         self.connected = true;

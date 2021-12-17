@@ -57,10 +57,11 @@ var Player = mdbgoose.model('player', playerSchema);
 
 var main = P.coroutine(function*(){
     // Connect to memdb
+    console.log('Connect to memdb')
     yield mdbgoose.connectAsync({
         shards : { // specify all shards here
-            s1 : {host : '127.0.0.1', port: 27017},
-            s2 : {host : '127.0.0.1', port: 31018},
+            s1 : {host : '127.0.0.1', port: 52117},
+            s2 : {host : '127.0.0.1', port: 52107},
         }
     });
 

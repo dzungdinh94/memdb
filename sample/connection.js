@@ -26,7 +26,7 @@ var should = require('should');
 
 var main = P.coroutine(function*(){
     // Create a new connection
-    var conn = yield memdb.connect({host : '127.0.0.1', port : 27017});
+    var conn = yield memdb.connect({host : '127.0.0.1', port : 52117});
 
     // Get player collection
     var Player = conn.collection('player');

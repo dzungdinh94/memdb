@@ -23,11 +23,12 @@ var minimist = require('minimist');
 var crypto = require('crypto');
 var P = require('bluebird');
 var _ = require('lodash');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var env = require('./env');
 var memdb = require('../lib');
 var mongodb = P.promisifyAll(require('mongodb'));
 var logger = memdb.logger.getLogger('test', __filename);
+var util = require('util');
 
 var isMaster = true;
 var concurrency = 1000;
@@ -132,7 +133,7 @@ var playerThread = P.coroutine(function*(db, playerId){
 });
 
 var checkConsistency = P.coroutine(function*(){
-    var db = yield P.promisify(mongodb.MongoClient.connect)(env.config.backend.url);
+    var db = yield util.promisify(mongodb.MongoClient.connect)(env.config.backend.url);
 
     var playerCount = yield db.collection('player').countAsync();
     var areaCount = yield db.collection('area').countAsync();

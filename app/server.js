@@ -20,11 +20,11 @@ var memdbLogger = require('memdb-logger');
 var net = require('net');
 var http = require('http');
 var P = require('bluebird');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 var Protocol = require('./protocol');
 var utils = require('./utils');
 var consts = require('./consts');
-
+var util = require('util');
 var DEFAULT_PORT = 31017;
 
 exports.start = function(opts){
@@ -127,7 +127,7 @@ exports.start = function(opts){
     });
 
     P.try(function(){
-        return P.promisify(server.listen, server)(port, bind);
+        return util.promisify(server.listen, server)(port, bind);
     })
     .then(function(){
         return db.start();
