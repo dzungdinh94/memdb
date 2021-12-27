@@ -21,9 +21,6 @@
         "database",
         "memory"
     ],
-    "engines": {
-        "node": ">=0.12.5"
-    },
     "bin": {
         "memdbd": "./bin/memdbd",
         "memdb": "./bin/memdb",
