@@ -43,7 +43,7 @@
         "minimist": "~1.2.5",
         "mkdirp": "~1.0.4",
         "mongodb": "^3.7.3",
-        "mongoose": "^5.7.0",
+        "mongoose": "^6.1.4",
         "redis": "~3.1.2",
         "uuid": "^8.3.2"
     },
