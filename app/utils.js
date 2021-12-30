@@ -178,7 +178,6 @@ exports.remoteExec = function(ip, cmd, opts){
     opts = opts || {};
     var user = opts.user || process.env.USER;
     var successCodes = opts.successCodes || [0];
-
     var child = null;
 
     // localhost with current user
@@ -188,7 +187,6 @@ exports.remoteExec = function(ip, cmd, opts){
 		if (pos !== -1) {
 			cmd = cmd.substring(pos, cmd.length);
 		}
-        console.log(cmd)
         child = child_process.spawn('bash', ['-c', cmd]);
     }
     // run remote via ssh

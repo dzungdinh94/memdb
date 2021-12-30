@@ -61,8 +61,6 @@ exports.start = function (opts) {
       P.try(function () {
         if (msg.method === "connect") {
           var clientVersion = msg.args[0];
-          console.log('aaaaaaa')
-          console.log(clientVersion)
           if (parseFloat(clientVersion) < parseFloat(consts.minClientVersion)) {
             throw new Error("client version not supported, please upgrade");
           }
@@ -126,6 +124,7 @@ exports.start = function (opts) {
   });
 
   server.on("error", function (err) {
+    console.log(err)
     logger.error(err.stack);
 
     if (!deferred.isResolved()) {

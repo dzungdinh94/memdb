@@ -41,45 +41,46 @@ if (require.main === module) {
     }
 
     //Become daemon
-    if((argv.d || argv.daemon) && !process.env.__parentPid){
+    // if((argv.d || argv.daemon) && !process.env.__parentPid){
 
-        process.env.__parentPid = process.pid;
+    //     process.env.__parentPid = process.pid;
 
-        var opts = {
-            stdio : 'ignore',
-            env : process.env,
-            cwd : process.cwd(),
-            detached : true,
-        };
-        var args = [].concat(process.argv);
-        args.shift(); // shift off node
+    //     var opts = {
+    //         stdio : 'ignore',
+    //         env : process.env,
+    //         cwd : process.cwd(),
+    //         detached : true,
+    //     };
+    //     var args = [].concat(process.argv);
+    //     args.shift(); // shift off node
 
-        process.stdout.write('starting ' + shardId + '... ');
+    //     process.stdout.write('starting ' + shardId + '... ');
+    //     console.log(process.execPath, args)
+    //     var child = require('child_process').spawn(process.execPath, args, opts);
+    //     child.on('exit', function(code, signal){
+    //         console.log(code,signal)
+    //         if(code !== 0){
+    //             process.stdout.write('failed\n');
+    //             process.exit(1);
+    //         }
+    //         else{
+    //             process.exit(0);
+    //         }
+    //     });
+    //     child.unref();
 
-        var child = require('child_process').spawn(process.execPath, args, opts);
-        child.on('exit', function(code, signal){
-            if(code !== 0){
-                process.stdout.write('failed\n');
-                process.exit(1);
-            }
-            else{
-                process.exit(0);
-            }
-        });
-        child.unref();
+    //     process.on('SIGUSR2', function(){
+    //         process.stdout.write('success\n');
+    //         process.exit(0);
+    //     });
 
-        process.on('SIGUSR2', function(){
-            process.stdout.write('success\n');
-            process.exit(0);
-        });
+    //     // prevent from exit
+    //     process.on('SIGTERM', function(){});
+    //     process.on('SIGINT', function(){});
+    //     setTimeout(function(){}, 100000000);
 
-        // prevent from exit
-        process.on('SIGTERM', function(){});
-        process.on('SIGINT', function(){});
-        setTimeout(function(){}, 100000000);
-
-        return;
-    }
+    //     return;
+    // }
 
     var config = require('../app/config');
     var conf = config.init(confPath, shardId);

@@ -21,7 +21,6 @@ var RedisBackend = require('./redis-backend');
 exports.create = function(config){
     config = config || {};
     var engine = config.engine || 'mongodb';
-
     if(engine === 'mongodb'){
         return new MongoBackend(config);
     }

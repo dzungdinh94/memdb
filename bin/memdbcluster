@@ -136,6 +136,7 @@ if (require.main === module) {
                 .then(function(){
                     console.log('%s started', shardId);
                 }, function(e){
+                    console.log(e.stack);
                     console.error(e.stack);
                 });
             });

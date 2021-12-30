@@ -1,7 +1,7 @@
 {
     "name": "memdb-server",
     "description": "Distributed Transactional In-Memory Database",
-    "version": "0.5.8",
+    "version": "1.0.0",
     "author": "dzungdinh94",
     "private": false,
     "homepage": "https://github.com/dzungdinh94/memdb",
@@ -42,15 +42,14 @@
         "memdb-logger": "~0.1.7",
         "minimist": "~1.2.5",
         "mkdirp": "~1.0.4",
-        "mongodb": "^3.7.3",
-        "mongoose": "^6.1.4",
+        "mongodb": "4.2.2",
+        "mongoose": "6.1.4",
         "redis": "~3.1.2",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
         "blanket": "~1.2.3",
         "grunt-cli": "~1.4.3",
-        "grunt-concurrent": "~3.0.0",
         "grunt-contrib-clean": "~2.0.0",
         "grunt-contrib-jshint": "~3.1.1",
         "grunt-contrib-watch": "~1.1.0",
